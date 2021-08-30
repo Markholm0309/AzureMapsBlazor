@@ -1,1 +1,1 @@
-AzureMapsBlazor
+AzureMapsTest

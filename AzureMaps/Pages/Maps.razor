@@ -1,0 +1,66 @@
+﻿@page "/"
+
+@using AzureMapsControl.Components.Map
+@using AzureMapsControl.Components.Markers
+@using AzureMapsControl.Components.Atlas
+@using System.ComponentModel
+@using AzureMaps.Data.Entities
+@using AzureMaps.Services
+@using AzureMaps.Static
+@using AzureMapsControl.Components.Controls
+@using AzureMapsControl.Components.Popups
+
+@inject EventRepository _repo
+
+<AzureMap Id="map"
+          StyleOptions="_styleOptions" CameraOptions="_cameraOptions" EventActivationFlags="MapEventActivationFlags.None().Enable(MapEventType.Ready)" OnReady="OnMapReady"/>
+
+@code {
+    private static Root _events;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _events = await _repo.Get(Endpoints.WildFiresUrl);
+    }
+    
+    private static async Task OnMapReady(MapEventArgs events)
+    {
+        foreach (var marker in _events.events)
+        {
+            var markers = new HtmlMarker(
+                new HtmlMarkerOptions
+                {
+                    Position = new Position(marker.geometry.First().coordinates[0], marker.geometry.First().coordinates[1]),
+                    Draggable = false,
+                    HtmlContent = "<span class=\"iconify\" data-icon=\"emojione:fire\" data-width=\"25\" data-height=\"25\"></span>",
+                    Popup = new HtmlMarkerPopup(new PopupOptions
+                    {
+                        Content = $"<div class=\"customInfobox\"><div class=\"name\">{marker.title}</div>{marker.description}</div>",
+                        PixelOffset = new Pixel(0, -30),
+                        CloseButton = false
+                    })
+                },
+                HtmlMarkerEventActivationFlags.None().Enable(HtmlMarkerEventType.Click));
+            
+            markers.OnClick += (args) =>
+            {
+                args.HtmlMarker.TogglePopupAsync();
+            };
+
+            await events.Map.AddHtmlMarkersAsync(markers);
+        }
+    }
+    
+    private readonly StyleOptions _styleOptions = new()
+    {
+        Style = MapStyle.Night,
+        ShowLogo = false,
+        ShowFeedbackLink = false
+    };
+    
+    private readonly CameraOptions _cameraOptions = new()
+    {
+        Center = new Position(15.00, 50.00),
+        Zoom = 5
+    };
+}
