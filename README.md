@@ -9,7 +9,7 @@ Shows wildfires worldwide w/ location name & Coordinates, through NASA API
 ### Todo
 
 - [ ] Work on the pop-up info box 
-- [ ] Fix the map position
+- [ ] Fix the map frame/position
 ---
 
 **Try it out: https://webapp-210831132459.azurewebsites.net/**
