@@ -1,4 +1,4 @@
-:warning: **WORK IN PROGRESS** :warning:
+:warning: **⚠️ Haven't touched this project for a long time. ⚠️** :warning:
 
 *Wildfire tracker built with Blazor & Azure Maps.*
 
