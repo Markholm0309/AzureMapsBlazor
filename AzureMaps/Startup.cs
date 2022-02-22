@@ -50,7 +50,7 @@ namespace AzureMaps
             
             services.AddSingleton<EventRepository>();
             
-            services.AddAzureMapsControl(config => config.SubscriptionKey = "S0D4mKSjx1OAG-yuNCAkHN7eK0olmJNpVefD1mnpEB4");
+            services.AddAzureMapsControl(config => config.SubscriptionKey = "YOUR KEY HERE"); // Azure Portal -> Azure Maps Accounts
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
